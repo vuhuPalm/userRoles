@@ -21,7 +21,8 @@ module.exports.registerUser = async function(req, res) {
 }
 
 module.exports.renderLoginForm = function(req, res) {
-    res.render('users/login');
+    const errors = req.session.messages || [];
+    res.render('users/login', {errors});
 }
 
 module.exports.loginUser = passport.authenticate('local', {
@@ -29,3 +30,8 @@ module.exports.loginUser = passport.authenticate('local', {
     failureRedirect: '/login',
     failureMessage: true
 });
+
+module.exports.logout = function(req, res) {
+    req.logout();
+    res.redirect('/login');
+}
